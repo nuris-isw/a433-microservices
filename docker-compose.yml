@@ -1,0 +1,18 @@
+version: "2" # Menggunakan versi Docker Compose 2 atau lebih
+
+services:
+  item-app:
+    image: ghcr.io/nuris-isw/a433-microservices/item-app:v1 # ambil dari Github Packages
+    ports:
+      - "80:80" # Mapping ke port 80
+    depends_on:
+      - item-db # Berjalan setelah item-db diluncurkan
+    restart: always # Mengatur kebijakan restart
+
+  item-db:
+    image: mongo:3 # Image dari Docker Hub
+    volumes:
+      - app-db:/data/db # Menggunakan volume app-db
+
+volumes:
+  app-db:
