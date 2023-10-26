@@ -1,0 +1,28 @@
+version: 2.1
+
+jobs:
+  lint-dockerfile:
+    docker:
+      - image: hadolint/hadolint:latest
+    steps:
+      - checkout
+      - run:
+          name: Lint Dockerfile
+          command: hadolint Dockerfile # Install hadolint dan menjalankan pada dockerfile
+  
+  build-app-karsajobs-ui:
+    docker:
+      - image: docker:latest
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and Push Image
+          command: bash build_push_image_karsajobs-ui.sh  # Menjalankan shell script
+workflows:
+  version: 2
+  build:
+    jobs:
+      - lint-dockerfile
+      - build-app-karsajobs
